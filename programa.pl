@@ -126,16 +126,49 @@ estaEn(Autor, stream(_), Autor).
 caminoALaFama/1 se cumple para un usuario no influencer cuando un influencer publicó contenido en el que aparece el usuario, o bien el influencer publicó contenido donde aparece otro usuario que a su vez publicó contenido donde aparece el usuario. Debe valer para cualquier nivel de indirección.
 */
 
+%%% Versión 1
 caminoALaFama(Usuario):-
+    publicoContenidoCon(Famoso, Usuario),
+    Famoso \= Usuario,
+    not(influencer(Usuario)),
+    tieneFama(Famoso).
+
+tieneFama(Usuario):-
+    influencer(Usuario).
+tieneFama(Usuario):-
+    caminoALaFama(Usuario).
+
+
+%%% Versión 2 (repite un poco de código)
+
+caminoALaFamaV2(Usuario):-
+    loPublica(Usuario, Publicador),
+    influencer(Publicador).
+
+caminoALaFamaV2(Usuario):-
+    loPublica(Usuario, Publicador),
+    caminoALaFamaV2(Publicador).
+
+loPublica(Usuario, Publicador):-
+    publicoContenidoCon(Publicador, Usuario),
+    Publicador \= Usuario,
+    not(influencer(Usuario)).
+
+/*
+
+%%% Versión 3 (repite mucho código)
+caminoALaFamaV3(Usuario):-
     publicoContenidoCon(Influencer, Usuario),
     influencer(Influencer),
     not(influencer(Usuario)).
 
-caminoALaFama(Usuario):- 
+caminoALaFamaV3(Usuario):- 
     publicoContenidoCon(Otro, Usuario),
     Usuario \= Otro,
     not(influencer(Usuario)),
-    caminoALaFama(Otro).
+    caminoALaFamaV3(Otro).
+*/
+
 
 :- begin_tests(caminoALaFama).
  
