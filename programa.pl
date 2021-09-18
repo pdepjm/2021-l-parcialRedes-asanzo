@@ -19,10 +19,13 @@ canal(evelyn, instagram, 1).
 % influencer/1 se cumple para un usuario que tiene más de 10.000 seguidores en total entre todas sus redes.
 
 influencer(Influencer):-
+    cantidadDeSeguidores(Influencer, Cant),
+    Cant > 10000.
+    
+cantidadDeSeguidores(Influencer, Cant):-
     usuario(Influencer),
     findall(Seguidor, canal(Influencer, _, Seguidor), Seguidores),
-    sum_list(Seguidores, Suma),
-    Suma > 10000.
+    sum_list(Seguidores, Cant).
 
 usuario(Quien) :- distinct(Quien,canal(Quien, _, _)).
 
