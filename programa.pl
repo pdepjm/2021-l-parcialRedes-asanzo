@@ -131,14 +131,16 @@ colaboran(Alguien, Otro):-
     publicoContenidoCon(Otro, Alguien).
 
 publicoContenidoCon(Alguien, Otro) :-
-    publicacion(Alguien, _, Contenido), 
-    estaEn(Alguien, Contenido, Otro).
+    publicacion(Alguien, _, Contenido),
+    apareceEn(Alguien, Contenido, Otro).
 
-estaEn(_, foto(Quienes), Quien):-
-    member(Quien, Quienes).
-estaEn(_, video(Quienes,_), Quien):-
-    member(Quien, Quienes).
-estaEn(Autor, stream(_), Autor).
+apareceEn(Publicador, Contenido, Quien):-
+    figuranEn(Publicador, Contenido, Figuran),
+    member(Quien, Figuran).
+
+figuranEn(_, foto(Quienes), Quienes).
+figuranEn(_, video(Quienes,_), Quienes).
+figuranEn(Autor, stream(_), [Autor]).
 
 %%%% PUNTO 6 %%%%
 
